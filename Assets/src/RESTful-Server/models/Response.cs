@@ -14,7 +14,7 @@
 //	You should have received a copy of the GNU General Public License
 //	along with this program. If not, see <http://www.gnu.org/licenses/>.
 //
-// <copyright file="Responce.cs" company="TRi">
+// <copyright file="Response.cs" company="TRi">
 // Copyright (c) 2016 All Rights Reserved
 // </copyright>
 // <author>Tim F. Rieck</author>
@@ -25,7 +25,7 @@ using System.Net;
 
 namespace RESTfulHTTPServer.src.models
 {
-	public class Responce
+	public class Response
 	{
 		// Supported MIME content types
 		public const string MIME_CONTENT_TYPE_JSON = "application/json";
@@ -38,9 +38,9 @@ namespace RESTfulHTTPServer.src.models
 		private int _httpStatus;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="RESTfulHTTPServer.src.models.Responce"/> class.
+		/// Initializes a new instance of the <see cref="RESTfulHTTPServer.src.models.Response"/> class.
 		/// </summary>
-		public Responce() 
+		public Response() 
 		{
 			_mimeType = MIME_CONTENT_TYPE_HTML;
 			_content = "";
@@ -48,11 +48,11 @@ namespace RESTfulHTTPServer.src.models
 		}	
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="AssemblyCSharp.Responce"/> class.
+		/// Initializes a new instance of the <see cref="AssemblyCSharp.Response"/> class.
 		/// </summary>
 		/// <param name="mimeType">MIME type.</param>
 		/// <param name="content">Content.</param>
-		public Responce(string mimeType, string content, int httpStatus)
+		public Response(string mimeType, string content, int httpStatus)
 		{
 			_mimeType = mimeType;
 			_content = content;

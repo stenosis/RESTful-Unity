@@ -20,7 +20,7 @@ for changing the color of a game object by a POST request. Path: /color/{game ob
 * Access the query string variables from a request
 * Support for basic authentication
 * Capsule the executed operation within static invoker classes and methods
-* Define the responce content, HTTP status code and MIME type
+* Define the response content, HTTP status code and MIME type
 * This project contains a demo scene for controlling the color of a cube and two light sources
 
 
@@ -36,10 +36,10 @@ Define the routing table inside the _server init_ script.
 
 ### 3. Invoke
 Write a the referenced invoker class and method.<br>
-![Invoke](https://i.imgur.com/QlULgxZ.png)
+![Invoke](https://i.imgur.com/7vCJHD3.png)
 
-And define the HTTP responce the the request<br>
-![Responce](https://i.imgur.com/zaNXkPd.png)
+And define the HTTP response the the request<br>
+![Response](https://i.imgur.com/wKq96cd.png)
 
 
 ## Licence

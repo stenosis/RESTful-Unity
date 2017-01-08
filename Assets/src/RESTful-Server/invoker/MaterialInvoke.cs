@@ -37,11 +37,11 @@ namespace RESTfulHTTPServer.src.invoker
 		/// </summary>
 		/// <returns>The color.</returns>
 		/// <param name="request">Request.</param>
-		public static Responce GetColor(Request request)
+		public static Response GetColor(Request request)
 		{
-			Responce responce = new Responce();
+			Response response = new Response();
 			string objname = request.GetParameter("objname");
-			string responceData = "";
+			string responseData = "";
 
 			// Verbose all URL variables
 			foreach(string key in request.GetQuerys().Keys) {
@@ -71,13 +71,13 @@ namespace RESTfulHTTPServer.src.invoker
 							Material mat = gameObject.GetComponent<Renderer>().material;
 							vhsMaterial = new VHSMaterial(mat.color);
 						}
-						responceData = JsonUtility.ToJson(vhsMaterial);
-						responce.SetHTTPStatusCode((int) HttpStatusCode.OK);
+						responseData = JsonUtility.ToJson(vhsMaterial);
+						response.SetHTTPStatusCode((int) HttpStatusCode.OK);
 
 					} catch(Exception e)
 					{
 						string msg = "Failed to seiralised JSON";
-						responceData = msg;
+						responseData = msg;
 
 						RESTfulHTTPServer.src.controller.Logger.Log(TAG, msg);
 						RESTfulHTTPServer.src.controller.Logger.Log(TAG, e.ToString());
@@ -86,22 +86,22 @@ namespace RESTfulHTTPServer.src.invoker
 				} else 
 				{
 					// 404 - Not found
-					responceData = "404";
-					responce.SetContent(responceData);
-					responce.SetHTTPStatusCode((int) HttpStatusCode.NotFound);
-					responce.SetMimeType(Responce.MIME_CONTENT_TYPE_TEXT);
+					responseData = "404";
+					response.SetContent(responseData);
+					response.SetHTTPStatusCode((int) HttpStatusCode.NotFound);
+					response.SetMimeType(Response.MIME_CONTENT_TYPE_TEXT);
 				}
 			});
 
 			// Wait for the main thread
-			while (responceData.Equals ("")) {}
+			while (responseData.Equals ("")) {}
 
 			// 200 - OK
-			// Fillig up the responce with data
-			responce.SetContent(responceData);
-			responce.SetMimeType(Responce.MIME_CONTENT_TYPE_JSON);
+			// Fillig up the response with data
+			response.SetContent(responseData);
+			response.SetMimeType(Response.MIME_CONTENT_TYPE_JSON);
 
-			return responce;
+			return response;
 		}
 
 		/// <summary>
@@ -109,10 +109,10 @@ namespace RESTfulHTTPServer.src.invoker
 		/// </summary>
 		/// <returns>The color.</returns>
 		/// <param name="request">Request.</param>
-		public static Responce DeleteColor(Request request)
+		public static Response DeleteColor(Request request)
 		{
-			Responce responce = new Responce ();
-			string responceData = "";
+			Response response = new Response();
+			string responseData = "";
 			string objname = request.GetParameter ("objname");
 
 			UnityInvoker.ExecuteOnMainThread.Enqueue (() => { 
@@ -131,7 +131,7 @@ namespace RESTfulHTTPServer.src.invoker
 						// Create a returning json object for the result
 						VHSMaterial vhsMaterialResult = new VHSMaterial();
 						vhsMaterialResult.SetColor(light.color);
-						responceData = JsonUtility.ToJson(vhsMaterialResult);
+						responseData = JsonUtility.ToJson(vhsMaterialResult);
 					} 
 					// It's our mesh object
 					else 
@@ -143,26 +143,26 @@ namespace RESTfulHTTPServer.src.invoker
 						// Create a returning json object for the result
 						VHSMaterial vhsMaterialResult = new VHSMaterial();
 						vhsMaterialResult.SetColor(mat.color);
-						responceData = JsonUtility.ToJson(vhsMaterialResult);
+						responseData = JsonUtility.ToJson(vhsMaterialResult);
 					}
-					responce.SetHTTPStatusCode((int) HttpStatusCode.OK);
+					response.SetHTTPStatusCode((int) HttpStatusCode.OK);
 
 				} else {
 
 					// 404 - Not Found
-					responceData = "404";
-					responce.SetContent(responceData);
-					responce.SetHTTPStatusCode((int) HttpStatusCode.NotFound);
-					responce.SetMimeType(Responce.MIME_CONTENT_TYPE_HTML);
+					responseData = "404";
+					response.SetContent(responseData);
+					response.SetHTTPStatusCode((int) HttpStatusCode.NotFound);
+					response.SetMimeType(Response.MIME_CONTENT_TYPE_HTML);
 				}
 			});
 
 			// Wait for the main thread
-			while (responceData.Equals("")) {}
+			while (responseData.Equals("")) {}
 
-			responce.SetContent(responceData);
-			responce.SetMimeType(Responce.MIME_CONTENT_TYPE_JSON);
-			return responce;
+			response.SetContent(responseData);
+			response.SetMimeType(Response.MIME_CONTENT_TYPE_JSON);
+			return response;
 		}
 
 		/// <summary>
@@ -170,10 +170,10 @@ namespace RESTfulHTTPServer.src.invoker
 		/// </summary>
 		/// <returns>The color.</returns>
 		/// <param name="request">Request.</param>
-		public static Responce SetColor(Request request)
+		public static Response SetColor(Request request)
 		{
-			Responce responce = new Responce();
-			string responceData = "";
+			Response response = new Response();
+			string responseData = "";
 			string json = request.GetPOSTData();
 			string objname = request.GetParameter("objname");
 			bool valid = true;
@@ -198,7 +198,7 @@ namespace RESTfulHTTPServer.src.invoker
 
 							// Create a returning json object for the result
 							vhsMaterialResult.SetColor(light.color);
-							responceData = JsonUtility.ToJson(vhsMaterialResult);
+							responseData = JsonUtility.ToJson(vhsMaterialResult);
 						} 
 						// It's our mesh object
 						else 
@@ -209,14 +209,14 @@ namespace RESTfulHTTPServer.src.invoker
 
 							// Create a returning json object for the result
 							vhsMaterialResult.SetColor(mat.color);
-							responceData = JsonUtility.ToJson(vhsMaterialResult);
+							responseData = JsonUtility.ToJson(vhsMaterialResult);
 						}
 
 					} catch (Exception e)
 					{
 						valid = false;
 						string msg = "Failed to deseiralised JSON";
-						responceData = msg;
+						responseData = msg;
 
 						RESTfulHTTPServer.src.controller.Logger.Log(TAG, msg);
 						RESTfulHTTPServer.src.controller.Logger.Log(TAG, e.ToString());
@@ -224,33 +224,33 @@ namespace RESTfulHTTPServer.src.invoker
 
 				} else {
 
-					// 404 - Not Found
-					responceData = "404";
-					responce.SetContent(responceData);
-					responce.SetHTTPStatusCode((int) HttpStatusCode.NotFound);
-					responce.SetMimeType(Responce.MIME_CONTENT_TYPE_HTML);
+					// 404 - Object not found
+					responseData = "404";
+					response.SetContent(responseData);
+					response.SetHTTPStatusCode((int) HttpStatusCode.NotFound);
+					response.SetMimeType(Response.MIME_CONTENT_TYPE_HTML);
 				}
 			});
 
 			// Wait for the main thread
-			while (responceData.Equals("")) {}
+			while (responseData.Equals("")) {}
 
-			// Filling up the responce with data
+			// Filling up the response with data
 			if (valid) {
 
 				// 200 - OK
-				responce.SetContent(responceData);
-				responce.SetHTTPStatusCode ((int)HttpStatusCode.OK);
-				responce.SetMimeType (Responce.MIME_CONTENT_TYPE_JSON);
+				response.SetContent(responseData);
+				response.SetHTTPStatusCode ((int)HttpStatusCode.OK);
+				response.SetMimeType (Response.MIME_CONTENT_TYPE_JSON);
 			} else {
 
 				// 406 - Not acceptable
-				responce.SetContent("Failed to deseiralised JSON");
-				responce.SetHTTPStatusCode((int) HttpStatusCode.NotAcceptable);
-				responce.SetMimeType(Responce.MIME_CONTENT_TYPE_HTML);
+				response.SetContent("Failed to deseiralised JSON");
+				response.SetHTTPStatusCode((int) HttpStatusCode.NotAcceptable);
+				response.SetMimeType(Response.MIME_CONTENT_TYPE_HTML);
 			}
 
-			return responce;
+			return response;
 		}
 	}
 }

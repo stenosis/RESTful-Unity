@@ -184,11 +184,9 @@ namespace RESTfulHTTPServer.src.controller
         private void Process(HttpListenerContext context)
         {
             string httpResult;
-			Responce responce = new Responce();
+			Response response = new Response();
             HttpListenerRequest httpRequest = context.Request;
 			string calledURL = context.Request.Url.AbsolutePath;
-
-
 
 			// Verbose information
 			Logger.Log(TAG, "Rquest Type: " + httpRequest.HttpMethod);
@@ -234,11 +232,10 @@ namespace RESTfulHTTPServer.src.controller
 					// Let's check for and store URL querys
 					request = _routingManager.DetermineURLQuery(context, request);
 
-					// Let's call the delegeters method for the responce
-					responce = _routingManager.CallDelegater(request);
-					context.Response.StatusCode = responce.GetHTTPStatusCode();
-					httpResult = responce.GetContent();
-
+					// Let's call the delegeters method for the response
+					response = _routingManager.CallDelegater(request);
+					context.Response.StatusCode = response.GetHTTPStatusCode();
+					httpResult = response.GetContent();
 				} 
 				else 
 				{
@@ -260,7 +257,7 @@ namespace RESTfulHTTPServer.src.controller
 				Stream input = GenerateStreamFromString(httpResult);
 
 				// Seting up the context flags
-				context.Response.ContentType = responce.GetMIMEType();
+				context.Response.ContentType = response.GetMIMEType();
 				context.Response.ContentLength64 = input.Length;
 		        context.Response.AddHeader("Date", DateTime.Now.ToString("r"));
 		        context.Response.AddHeader("Last-Modified", File.GetLastWriteTime(calledURL).ToString("r"));

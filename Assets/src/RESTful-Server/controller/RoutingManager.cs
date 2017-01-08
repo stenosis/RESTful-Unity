@@ -235,27 +235,26 @@ namespace RESTfulHTTPServer.src.controller
         /// </summary>
         /// <param name="route">Called route</param>
         /// <returns></returns>
-		public Responce CallDelegater(Request request)
+		public Response CallDelegater(Request request)
         {
-			Responce responce;
+			Response response;
             try
             {
 				// FOR STATIC METHODS
 				Type t = Type.GetType(Configuration.NAMESPACE_INVOKER + request.GetRoute().GetInvokerClass());
 				MethodInfo method = t.GetMethod(request.GetRoute().GetInvokerMethod(), BindingFlags.Static | BindingFlags.Public);
-				//object returnValue = method.Invoke(null, new object[]{request});
-				responce = (Responce) method.Invoke(null, new object[]{request});
+				response = (Response) method.Invoke(null, new object[]{request});
             }
             catch (Exception e)
             {
 				Logger.Log (TAG, e.ToString());
 
-				responce = new Responce();
-				responce.SetContent("Error: Unable to call invoker.");
-				responce.SetHTTPStatusCode((int)HttpStatusCode.NotFound);
-				responce.SetMimeType(Responce.MIME_CONTENT_TYPE_HTML);
+				response = new Response();
+				response.SetContent("Error: Unable to call invoker.");
+				response.SetHTTPStatusCode((int)HttpStatusCode.NotFound);
+				response.SetMimeType(Response.MIME_CONTENT_TYPE_HTML);
             }
-			return responce;
+			return response;
         }
 
         /// <summary>
