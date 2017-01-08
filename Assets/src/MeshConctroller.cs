@@ -23,21 +23,48 @@
 using UnityEngine;
 using System.Collections;
 
-public class MeshConctroller : MonoBehaviour 
+public class MeshConctroller : MonoBehaviour
 {
 	private bool _rotate;
 	public int speed = 180;
+	private Material material;
+	private Renderer myrenderer;
 
 	// Use this for initialization
-	void Start () 
+	void Start ()
 	{
 		_rotate = true;
+		myrenderer = GetComponent<Renderer> ();
+		material = myrenderer.material;
 	}
 	
 	// Update is called once per frame
-	void Update () 
+	void Update ()
 	{
-		if(Input.GetKeyUp(KeyCode.R)) _rotate = !_rotate;
-		if (_rotate) transform.Rotate(Vector3.up, Time.deltaTime * speed);
+		if (Input.GetMouseButtonDown (0)) {
+			Debug.Log("GetMouseButtonDown");
+			//RESTfulHTTPServer.src.controller.Logger.Log ("MeshConctroller", "GetMouseButtonDown");
+
+			float red = Random.Range (1, 100) / 100.0f;
+			float green = Random.Range (1, 100) / 100.0f;
+			float blue = Random.Range (1, 100) / 100.0f;
+			float a = Random.Range (1, 100) / 100.0f;
+
+			Color nc = new Color (red, green, blue, a);
+
+			string l = string.Format ("change Color red {0} green {1} blue {2} a {3}", red, green, blue, a);
+			Debug.Log(l);
+
+			//material.SetColor ("random", Color.green);
+			material.color = nc;
+		}
+
+		if (Input.GetKeyUp (KeyCode.R)) {
+			_rotate = !_rotate;
+		}
+
+		if (_rotate) {
+			transform.Rotate (Vector3.up, Time.deltaTime * speed);
+		}
 	}
 }
